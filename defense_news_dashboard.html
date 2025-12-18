@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEFENCE NEWS COLLECTION</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f9f9f9;
+            --bg-secondary: #f1f1f1;
+            --bg-card: #ffffff;
+            --text-primary: #222222;
+            --text-secondary: #666666;
+            --accent: #2a5d9f;
+            --accent-hover: #1d406b;
+            --border: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.07);
+        }
+
+        .light-theme {
+            /* No override needed, light is default */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-family: 'Playfair Display', 'Times New Roman', Times, serif;
+            font-weight: 700;
+            color: #222222;
+            text-shadow: none;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-bar {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 1rem;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .filters-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .sort-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .sort-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .sort-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .sort-btn.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .news-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .news-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .news-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .news-date {
+            font-weight: 500;
+        }
+
+        .news-source {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .footer {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 2px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .latest-news-footer {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .auto-refresh-indicator {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            margin: 15% auto;
+            padding: 2rem;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            width: 400px;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .modal h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .region-btn {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .region-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                width: 250px;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sort-container {
+                margin-left: 0;
+            }
+        }
+    </style>
+    <!-- Sidebar and main layout -->
+    <style>
+    .main-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .featured-news {
+        margin-bottom: 2rem;
+    }
+    .featured-news-card {
+        background: var(--accent);
+        color: var(--bg-primary);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 20px var(--shadow);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .featured-news-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+    .featured-news-img {
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+    .featured-news-content h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
+    }
+    .featured-news-content p {
+        font-size: 1rem;
+        color: var(--bg-secondary);
+    }
+    /* Popular News Popup */
+    .popular-modal-content {
+        width: 500px;
+        max-width: 95vw;
+        text-align: left;
+    }
+    #popularNewsList .news-card {
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+    .close-popup-btn {
+        margin-top: 1rem;
+        padding: 0.5rem 1.5rem;
+        background: var(--accent);
+        color: var(--bg-primary);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        float: right;
+    }
+    .close-popup-btn:hover {
+        background: var(--accent-hover);
+    }
+    @media (max-width: 768px) {
+        .main-content {
+            padding: 1rem;
+        }
+        .featured-news-card {
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .featured-news-img {
+            width: 100%;
+            height: 120px;
+        }
+    }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Region Selection Modal -->
+    <div id="regionModal" class="modal">
+        <div class="modal-content">
+            <h2>🌍 Select Your Region</h2>
+            <p>Choose your preferred region for defense news:</p>
+            <div class="region-grid">
+                <button class="region-btn" onclick="selectRegion('US')">🇺🇸 United States</button>
+                <button class="region-btn" onclick="selectRegion('India')">🇮🇳 India</button>
+                <button class="region-btn" onclick="selectRegion('Russia')">🇷🇺 Russia</button>
+                <button class="region-btn" onclick="selectRegion('China')">🇨🇳 China</button>
+                <button class="region-btn" onclick="selectRegion('UK')">🇬🇧 United Kingdom</button>
+                <button class="region-btn" onclick="selectRegion('Israel')">🇮🇱 Israel</button>
+                <button class="region-btn" onclick="selectRegion('Japan')">🇯🇵 Japan</button>
+                <button class="region-btn" onclick="selectRegion('South Korea')">🇰🇷 South Korea</button>
+                <button class="region-btn" onclick="selectRegion('France')">🇫🇷 France</button>
+                <button class="region-btn" onclick="selectRegion('Germany')">🇩🇪 Germany</button>
+                <button class="region-btn" onclick="selectRegion('Australia')">🇦🇺 Australia</button>
+                <button class="region-btn" onclick="selectRegion('Canada')">🇨🇦 Canada</button>
+                <button class="region-btn" onclick="selectRegion('Brazil')">🇧🇷 Brazil</button>
+                <button class="region-btn" onclick="selectRegion('Middle East')">🕌 Middle East</button>
+                <button class="region-btn" onclick="selectRegion('Europe')">🇪🇺 Europe</button>
+                <button class="region-btn" onclick="selectRegion('Asia Pacific')">🌏 Asia Pacific</button>
+                <button class="region-btn" onclick="selectRegion('Global')">🌐 Global</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">DEFENCE NEWS COLLECTION</div>
+            <div class="controls">
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Search defense news..." id="searchBar">
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="featured-news" id="featuredNews">
+            <!-- Featured news will be populated by JS -->
+        </div>
+        <div class="tabs-container" id="tabsContainer">
+            <!-- Tabs will be populated by JavaScript -->
+        </div>
+        <div class="filters-container">
+            <div class="filter-group">
+                <button class="filter-btn active" onclick="setFilter('all')">All</button>
+                <button class="filter-btn" onclick="setFilter('cyber')">Cyber</button>
+                <button class="filter-btn" onclick="setFilter('military')">Military</button>
+                <button class="filter-btn" onclick="setFilter('army')">Army</button>
+                <button class="filter-btn" onclick="setFilter('navy')">Navy</button>
+                <button class="filter-btn" onclick="setFilter('air force')">Air Force</button>
+                <button class="filter-btn" onclick="setFilter('defense')">Defense</button>
+                <button class="filter-btn" onclick="setFilter('weapons')">Weapons</button>
+            </div>
+            <div class="sort-container">
+                <button class="sort-btn active" onclick="sortNews('newest')">Newest</button>
+                <button class="sort-btn" onclick="sortNews('oldest')">Oldest</button>
+            </div>
+        </div>
+        <div class="news-grid" id="newsGrid">
+            <div class="loading">Loading defense news...</div>
+        </div>
+    </main>
+    <!-- Popular News Popup -->
+    <div id="popularNewsPopup" class="modal">
+        <div class="modal-content popular-modal-content">
+            <h2>🔥 Popular News</h2>
+            <div id="popularNewsList"></div>
+            <button onclick="closePopularNewsPopup()" class="close-popup-btn">✖ Close</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="latest-news-footer" id="latestNewsFooter">
+                Latest news updated for your selected region
+            </div>
+            <div class="auto-refresh-indicator">
+                ⏱️ Auto-refresh every 5 minutes
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentRegion = 'US';
+        let currentFilter = 'all';
+        let currentSort = 'newest';
+        let allNews = [];
+        let isDarkTheme = false;
+        document.body.classList.add('light-theme');
+        let refreshInterval;
+
+        // RSS feeds for different regions
+        const rssFeeds = {
+            US: [
+                'https://feeds.feedburner.com/defensenews/national',
+                'https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=20',
+                'https://breakingdefense.com/feed/'
+            ],
+            India: [
+                'https://theprint.in/category/defence/feed/',
+                'https://www.defencenews.in/feed/',
+                'https://economictimes.indiatimes.com/news/defence/rssfeeds/47362318.cms'
+            ],
+            Russia: [
+                'https://tass.com/rss/v2.xml',
+                'https://sputniknews.com/rss/',
+                'https://rt.com/rss/'
+            ],
+            China: [
+                'https://news.cgtn.com/news/rss/mil.xml',
+                'https://www.chinadaily.com.cn/rss/china_rss.xml',
+                'https://english.chinamil.com.cn/rss/column_8.xml'
+            ],
+            UK: [
+                'https://www.gov.uk/government/publications.atom?departments[]=ministry-of-defence',
+                'https://www.janes.com/feeds/news',
+                'https://ukdefencejournal.org.uk/feed/'
+            ],
+            Israel: [
+                'https://www.jpost.com/rss/rssfeedsfrontpage',
+                'https://www.timesofisrael.com/feed/',
+                'https://www.haaretz.com/cmlink/1.628754'
+            ],
+            Japan: [
+                'https://english.kyodonews.net/rss/defense.xml',
+                'https://www.japantimes.co.jp/feed/topstories/',
+                'https://mainichi.jp/english/rss/index.xml'
+            ],
+            'South Korea': [
+                'https://en.yna.co.kr/RSS/defense.xml',
+                'https://www.koreatimes.co.kr/www/rss/defense.xml',
+                'https://koreajoongangdaily.joins.com/rss/defense'
+            ],
+            France: [
+                'https://www.defense.gouv.fr/rss',
+                'https://www.lopinion.fr/rss/defense',
+                'https://www.meta-defense.fr/feed/'
+            ],
+            Germany: [
+                'https://www.bundeswehr.de/rss.xml',
+                'https://www.defense-aerospace.com/rss.xml',
+                'https://www.bmvg.de/rss'
+            ],
+            Australia: [
+                'https://www.defence.gov.au/rss/news.xml',
+                'https://www.australiandefence.com.au/rss',
+                'https://www.defensenews.com.au/rss'
+            ],
+            Canada: [
+                'https://www.canada.ca/en/department-national-defence/rss.xml',
+                'https://www.forces.gc.ca/rss.xml',
+                'https://www.defencereport.com/rss'
+            ],
+            Brazil: [
+                'https://www.defesa.gov.br/rss',
+                'https://www.forcasarmadas.com.br/rss',
+                'https://www.defesanet.com.br/rss'
+            ],
+            'Middle East': [
+                'https://www.defensenews.com/rss/middle-east/',
+                'https://www.janes.com/feeds/middle-east',
+                'https://www.al-monitor.com/rss/defense'
+            ],
+            Europe: [
+                'https://www.defensenews.com/rss/europe/',
+                'https://www.janes.com/feeds/europe',
+                'https://eurodefense.net/rss'
+            ],
+            'Asia Pacific': [
+                'https://www.defensenews.com/rss/asia-pacific/',
+                'https://www.janes.com/feeds/asia-pacific',
+                'https://asiandefense.net/rss'
+            ],
+            Global: [
+                'https://www.defensenews.com/rss.xml',
+                'https://www.janes.com/feeds/news',
+                'https://www.militarytimes.com/arc/outboundfeeds/rss/?outputType=xml'
+            ]
+        };
+
+        // Initialize the application
+        function init() {
+            // Check if region is already selected
+            const savedRegion = localStorage.getItem('selectedRegion');
+            if (savedRegion) {
+                currentRegion = savedRegion;
+                setupTabs();
+                loadNews();
+            } else {
+                showRegionModal();
+            }
+
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Start auto-refresh
+            startAutoRefresh();
+        }
+
+        function showRegionModal() {
+            document.getElementById('regionModal').style.display = 'block';
+        }
+
+        function selectRegion(region) {
+            currentRegion = region;
+            localStorage.setItem('selectedRegion', region);
+            document.getElementById('regionModal').style.display = 'none';
+            setupTabs();
+            loadNews();
+            updateFooter();
+            showPopularNewsPopup(); // Show popup on region select
+        }
+
+        function setupTabs() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            tabsContainer.innerHTML = '';
+
+            const regions = Object.keys(rssFeeds);
+            regions.forEach(region => {
+                const tab = document.createElement('div');
+                tab.className = `tab ${region === currentRegion ? 'active' : ''}`;
+                tab.textContent = region === 'Global' ? '🌐 Global' : getRegionFlag(region) + ' ' + region;
+                tab.onclick = () => switchRegion(region);
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        function getRegionFlag(region) {
+            const flags = {
+                US: '🇺🇸',
+                India: '🇮🇳',
+                Russia: '🇷🇺',
+                China: '🇨🇳',
+                UK: '🇬🇧',
+                Israel: '🇮🇱',
+                Japan: '🇯🇵',
+                'South Korea': '🇰🇷',
+                France: '🇫🇷',
+                Germany: '🇩🇪',
+                Australia: '🇦🇺',
+                Canada: '🇨🇦',
+                Brazil: '🇧🇷',
+                'Middle East': '🕌',
+                Europe: '🇪🇺',
+                'Asia Pacific': '🌏'
+            };
+            return flags[region] || '🌐';
+        }
+
+        function switchRegion(region) {
+            currentRegion = region;
+            localStorage.setItem('selectedRegion', region);
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadNews();
+            updateFooter();
+        }
+
+        function setupEventListeners() {
+            // Search functionality
+            const searchBar = document.getElementById('searchBar');
+            searchBar.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    filterNews();
+                }
+            });
+
+            searchBar.addEventListener('input', filterNews);
+        }
+
+        async function loadNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            newsGrid.innerHTML = '<div class="loading">Loading defense news...</div>';
+            try {
+                // Map region to an array of RSS feed URLs
+                const regionRssFeeds = {
+                    US: [
+                        'https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml',
+                        'https://feeds.feedburner.com/defensenews/national',
+                        'https://breakingdefense.com/feed/',
+                        'https://www.military.com/rss-feeds/military-news.xml'
+                    ],
+                    India: [
+                        'https://theprint.in/category/defence/feed/',
+                        'https://www.indiastrategic.in/feed/',
+                        'https://www.defencenews.in/feed/',
+                        'https://economictimes.indiatimes.com/news/defence/rssfeeds/47362318.cms'
+                    ],
+                    Russia: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defence24.com/rss',
+                        'https://www.janes.com/rss'
+                    ],
+                    China: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defence24.com/rss'
+                    ],
+                    'South Korea': [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defence24.com/rss'
+                    ],
+                    Japan: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defence24.com/rss'
+                    ],
+                    Israel: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defence24.com/rss'
+                    ],
+                    Europe: [
+                        'https://www.defence24.com/rss',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml'
+                    ],
+                    France: [
+                        'https://www.meta-defense.fr/feed/',
+                        'https://www.defense.gouv.fr/rss',
+                        'https://www.lopinion.fr/rss/defense',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss'
+                    ],
+                    Germany: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defence24.com/rss',
+                        'https://www.bundeswehr.de/resource/blob/175308/6e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e/rss.xml'
+                    ],
+                    Canada: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defence24.com/rss',
+                        'https://www.canada.ca/en/department-national-defence/news/news-releases/_jcr_content/contentFeed.xml'
+                    ],
+                    Brazil: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defence24.com/rss',
+                        'https://www.defesanet.com.br/feed/'
+                    ],
+                    'Middle East & MENA': [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/feeds/middle-east',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defencearabia.com/feed/',
+                        'https://www.al-monitor.com/rss/defense'
+                    ],
+                    Africa: [
+                        'https://www.defenceweb.co.za/feed/',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml'
+                    ],
+                    Vietnam: [
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defence24.com/rss'
+                    ],
+                    Singapore: [
+                        'https://www.asianmilitaryreview.com/feed/',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml'
+                    ],
+                    Australia: [
+                        'https://www.defenceconnect.com.au/feed/',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/rss',
+                        'https://www.defenseworld.net/rss/defenseworld.xml'
+                    ],
+                    'Asia-Pacific': [
+                        'https://www.asianmilitaryreview.com/feed/',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.janes.com/feeds/asia-pacific',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defence24.com/rss'
+                    ],
+                    'Global / International': [
+                        'https://www.janes.com/rss',
+                        'https://www.armyrecognition.com/rss/news.xml',
+                        'https://www.defenseworld.net/rss/defenseworld.xml',
+                        'https://www.defence24.com/rss',
+                        'https://www.military.com/rss-feeds/military-news.xml'
+                    ]
+                };
+                const rssUrls = regionRssFeeds[currentRegion];
+                if (!rssUrls || rssUrls.length === 0) {
+                    newsGrid.innerHTML = '<div class="loading">No reliable RSS feed available for this region.</div>';
+                    return;
+                }
+                let success = false;
+                for (let i = 0; i < rssUrls.length; i++) {
+                    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrls[i])}`;
+                    try {
+                        const response = await fetch(apiUrl);
+                        const data = await response.json();
+                        if (data.status === 'ok' && data.items && data.items.length > 0) {
+                            allNews = data.items.map(item => ({
+                                title: item.title,
+                                description: item.description.replace(/<[^>]+>/g, '').slice(0, 200) + '...',
+                                source: item.author || data.feed.title || currentRegion,
+                                date: item.pubDate,
+                                url: item.link,
+                                thumbnail: item.thumbnail || (item.enclosure ? item.enclosure.link : null),
+                                popularity: Math.floor(Math.random() * 1000) + 100,
+                                views: Math.floor(Math.random() * 10000) + 1000,
+                                isPopular: false
+                            }));
+                            // Mark first 3 as popular
+                            allNews.forEach((n, i) => n.isPopular = i < 3);
+                            showFeaturedNews(allNews);
+                            displayNews(allNews);
+                            updateFooter();
+                            success = true;
+                            break;
+                        }
+                    } catch (err) {
+                        // Try next feed
+                    }
+                }
+                if (!success) {
+                    newsGrid.innerHTML = '<div class="loading">Error loading news. Please try again.</div>';
+                }
+            } catch (error) {
+                console.error('Error loading news:', error);
+                newsGrid.innerHTML = '<div class="loading">Error loading news. Please try again.</div>';
+            }
+        }
+
+        function generateMockNews(region) {
+            const headlines = {
+                US: [
+                    'Pentagon Announces New Cyber Defense Initiative',
+                    'Navy Deploys Advanced Missile Defense System',
+                    'Air Force Tests Next-Generation Fighter Aircraft',
+                    'Military Cyber Command Strengthens Digital Defenses',
+                    'Defense Department Unveils AI-Powered Surveillance System',
+                    'New Naval Destroyer Completes Sea Trials',
+                    'Army Modernizes Communication Networks',
+                    'Space Force Launches Satellite Defense Program',
+                    'Marine Corps Receives Advanced Combat Vehicles',
+                    'Pentagon Invests in Quantum Computing Research'
+                ],
+                India: [
+                    'Indian Army Conducts Large-Scale Military Exercise',
+                    'Navy Commissions New Indigenous Aircraft Carrier',
+                    'Air Force Receives Advanced Fighter Jets',
+                    'Defense Ministry Approves Cyber Warfare Division',
+                    'Border Security Forces Enhance Surveillance',
+                    'Indigenous Defense Manufacturing Reaches New Heights',
+                    'Military Satellite Communication System Upgraded',
+                    'Navy Develops Advanced Submarine Technology',
+                    'DRDO Tests Hypersonic Missile Technology',
+                    'Army Modernizes Infantry Combat Systems'
+                ],
+                Russia: [
+                    'Russian Military Demonstrates Hypersonic Weapons',
+                    'Navy Launches Nuclear-Powered Submarine',
+                    'Air Defense Systems Undergo Modernization',
+                    'Cyber Defense Capabilities Enhanced',
+                    'Military Industrial Complex Expands Production',
+                    'Space Defense Program Advances',
+                    'Naval Fleet Conducts Arctic Operations',
+                    'Army Receives Advanced Combat Equipment',
+                    'Strategic Missile Forces Conduct Exercises',
+                    'Defense Ministry Announces New Procurement Plans'
+                ],
+                China: [
+                    'PLA Navy Conducts Joint Military Exercise',
+                    'Air Force Showcases Stealth Fighter Technology',
+                    'Military Cyber Unit Strengthens Capabilities',
+                    'Defense Industry Advances Weapon Systems',
+                    'Naval Aviation Wing Expands Operations',
+                    'Army Modernizes Equipment and Training',
+                    'Space Military Division Launches Satellites',
+                    'Coastal Defense Systems Upgraded',
+                    'PLA Conducts Large-Scale Joint Operations',
+                    'Military AI Development Accelerates'
+                ],
+                Europe: [
+                    'European Defense Cooperation Strengthens',
+                    'NATO Forces Conduct Joint Exercises',
+                    'Air Defense Systems Integrated',
+                    'Cyber Security Alliance Established',
+                    'Defense Industry Collaboration Expands',
+                    'Military Mobility Project Advances',
+                    'Joint Procurement Programs Launched',
+                    'Space Defense Initiative Coordinated',
+                    'Special Forces Cooperation Enhanced',
+                    'Defense Research Programs Unified'
+                ],
+                Global: [
+                    'International Defense Cooperation Strengthens',
+                    'Global Military Spending Reaches Record High',
+                    'NATO Allies Conduct Joint Cyber Defense Exercise',
+                    'UN Peacekeeping Forces Receive New Equipment',
+                    'International Arms Trade Regulations Updated',
+                    'Global Defense Technology Summit Concludes',
+                    'Military AI Development Accelerates Worldwide',
+                    'International Space Defense Initiative Launched',
+                    'Global Counter-Terrorism Operations Expand',
+                    'Defense Industry Partnerships Strengthen'
+                ],
+                Israel: [
+                    'IDF Demonstrates Advanced Iron Dome Technology',
+                    'Navy Receives New Corvette Vessels',
+                    'Air Force Tests Cutting-Edge Fighter Jets',
+                    'Cyber Defense Unit Expands Operations',
+                    'Border Security Technology Enhanced',
+                    'Defense Industry Develops New Weapon Systems',
+                    'Military Intelligence Upgrades Capabilities',
+                    'Army Conducts Large-Scale Training Exercise',
+                    'Naval Commando Units Receive Advanced Equipment',
+                    'Defense Ministry Announces Technology Partnership'
+                ],
+                'Middle East': [
+                    'Regional Defense Cooperation Strengthens',
+                    'Naval Forces Enhance Maritime Security',
+                    'Air Defense Systems Upgraded Across Region',
+                    'Cyber Security Initiatives Expand',
+                    'Defense Industry Collaboration Increases',
+                    'Joint Military Exercises Conducted',
+                    'Border Security Technology Enhanced',
+                    'Military Intelligence Sharing Improves',
+                    'Special Operations Forces Coordinate',
+                    'Defense Spending Increases Regionally'
+                ],
+                Africa: [
+                    'African Union Expands Peacekeeping Operations',
+                    'New Defense Partnerships in Sub-Saharan Africa',
+                    'Modernization of African Air Forces',
+                    'Naval Security Initiatives in West Africa',
+                    'Counter-Terrorism Efforts Intensify',
+                    'Defense Technology Transfer Agreements',
+                    'Regional Military Exercises Announced',
+                    'Border Security Upgrades',
+                    'Peacekeeping Forces Receive New Equipment',
+                    'Defense Budgets Increase Across Africa'
+                ],
+                Vietnam: [
+                    'Vietnam Modernizes Naval Fleet',
+                    'Air Force Receives New Fighter Jets',
+                    'Defense Industry Expands Production',
+                    'Military Training Exercises with Allies',
+                    'Border Security Enhanced',
+                    'Cyber Defense Capabilities Improved',
+                    'Joint Operations with Regional Partners',
+                    'Defense Ministry Announces New Initiatives',
+                    'Naval Exercises in South China Sea',
+                    'Military Research and Development Advances'
+                ],
+                Singapore: [
+                    'Singapore Armed Forces Upgrade Equipment',
+                    'Defense Technology Innovation Summit',
+                    'Joint Military Exercises with Neighbors',
+                    'Cyber Security Initiatives Expand',
+                    'Naval Base Modernization',
+                    'Air Force Receives New Aircraft',
+                    'Defense Industry Partnerships Grow',
+                    'Military Training Programs Enhanced',
+                    'Border Security Strengthened',
+                    'Defense Ministry Announces New Policies'
+                ],
+                Japan: [
+                    'Japanese Self-Defense Forces Modernize Equipment',
+                    'Navy Launches New Helicopter Destroyer',
+                    'Air Force Receives Advanced Fighter Aircraft',
+                    'Cyber Defense Command Established',
+                    'Defense Ministry Increases Budget Allocation',
+                    'Joint Military Exercise with US Forces',
+                    'Coast Guard Enhances Maritime Security',
+                    'Defense Industry Develops New Technologies',
+                    'Ground Forces Conduct Island Defense Training',
+                    'Space Defense Initiative Launched'
+                ],
+                'South Korea': [
+                    'South Korean Military Strengthens DMZ Security',
+                    'Navy Launches Advanced Submarine',
+                    'Air Force Receives KF-21 Fighter Jets',
+                    'Cyber Command Enhances Digital Defense',
+                    'Defense Industry Expands Export Capabilities',
+                    'Army Modernizes Artillery Systems',
+                    'Joint Military Exercise with Allied Forces',
+                    'Military Satellite Program Advances',
+                    'Special Forces Receive New Equipment',
+                    'Defense Ministry Announces Modernization Plan'
+                ],
+                Australia: [
+                    'Australian Defense Force Modernizes Fleet',
+                    'Navy Receives New Destroyer Vessels',
+                    'Air Force Tests Advanced Fighter Aircraft',
+                    'Cyber Security Command Strengthens Defense',
+                    'Defense Industry Expands Capabilities',
+                    'Army Conducts Joint Training Exercises',
+                    'Military Satellite Communication Upgraded',
+                    'Special Forces Receive New Equipment',
+                    'Defense Ministry Announces Investment Plan',
+                    'Joint Operations with Allied Forces'
+                ],
+                'Asia Pacific': [
+                    'Regional Security Cooperation Strengthens',
+                    'Naval Forces Enhance Maritime Patrol',
+                    'Air Defense Systems Modernized',
+                    'Cyber Security Initiatives Expand',
+                    'Defense Industry Partnerships Grow',
+                    'Joint Military Training Exercises',
+                    'Maritime Security Operations Enhanced',
+                    'Intelligence Sharing Agreements Signed',
+                    'Counter-Terrorism Efforts Coordinated',
+                    'Defense Technology Cooperation Advances'
+                ],
+                Singapore: [
+                    'Singapore Armed Forces Upgrade Equipment',
+                    'Defense Technology Innovation Summit',
+                    'Joint Military Exercises with Neighbors',
+                    'Cyber Security Initiatives Expand',
+                    'Naval Base Modernization',
+                    'Air Force Receives New Aircraft',
+                    'Defense Industry Partnerships Grow',
+                    'Military Training Programs Enhanced',
+                    'Border Security Strengthened',
+                    'Defense Ministry Announces New Policies'
+                ]
+            };
+
+            const regionUrls = {
+                US: 'https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml',
+                India: 'https://www.indiastrategic.in/feed/',
+                Russia: 'https://tass.com/defense/rss',
+                China: 'https://www.globaltimes.cn/defense/rss',
+                Europe: 'https://www.defence24.com/rss',
+                'Global / International': 'https://www.janes.com/rss',
+                Israel: 'https://www.i24news.tv/en/news/israel/defense/rss',
+                'Middle East & MENA': 'https://www.defencearabia.com/feed/',
+                Africa: 'https://www.defenceweb.co.za/feed/',
+                Vietnam: 'https://vietdefense.com/rss',
+                Singapore: 'https://www.asianmilitaryreview.com/feed/',
+                Japan: 'https://www.japantimes.co.jp/news/national/defense-security/feed/',
+                'South Korea': 'https://www.koreaherald.com/rss/defense.jsp',
+                Australia: 'https://www.defenceconnect.com.au/feed/',
+                'Asia-Pacific': 'https://www.asiandefence.news/feed/'
+            };
+
+            const descriptions = [
+                'Strategic military advancement enhances national security capabilities and operational readiness.',
+                'Latest defense technology implementation strengthens operational effectiveness and tactical advantage.',
+                'Military modernization program continues with advanced equipment deployment and training.',
+                'Defense officials announce significant investment in security infrastructure and personnel.',
+                'Joint military operations demonstrate enhanced coordination and international cooperation.',
+                'New defense systems provide improved protection for national interests and allied forces.',
+                'Military leadership emphasizes importance of technological superiority and innovation.',
+                'Defense spending allocation focuses on emerging security challenges and threats.',
+                'Advanced training programs enhance military readiness and combat effectiveness.',
+                'International partnerships strengthen global security and defense cooperation.'
+            ];
+
+            const sources = ['Defense News', 'Military Times', 'Jane\'s Defence', 'Breaking Defense', 'Defense Daily', 'Military.com'];
+
+            // Generate realistic defense-related thumbnails
+            const thumbnailCategories = [
+                'military/aircraft', 'military/navy', 'military/tanks', 'military/soldiers', 
+                'technology/radar', 'military/ships', 'military/helicopter', 'military/submarine',
+                'technology/satellite', 'military/training'
+            ];
+
+            return (headlines[region] || headlines['Global']).map((headline, index) => {
+                const hasImage = Math.random() > 0.2; // 80% chance of having an image
+                const thumbnailCategory = thumbnailCategories[index % thumbnailCategories.length];
+                const regionUrl = regionUrls[region];
+                return {
+                    title: headline,
+                    description: descriptions[index % descriptions.length],
+                    source: sources[index % sources.length],
+                    date: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    url: regionUrl || null,
+                    thumbnail: hasImage ? `https://picsum.photos/400/250?random=${index}&blur=0` : null,
+                    popularity: Math.floor(Math.random() * 1000) + 100, // Random popularity score
+                    views: Math.floor(Math.random() * 10000) + 1000,
+                    isPopular: index < 3 // Mark first 3 as popular
+                };
+            });
+        }
+
+        function filterNews() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            let filteredNews = allNews;
+
+            // Filter by search term
+            if (searchTerm) {
+                filteredNews = filteredNews.filter(news => 
+                    news.title.toLowerCase().includes(searchTerm) ||
+                    news.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Filter by keyword
+            if (currentFilter !== 'all') {
+                filteredNews = filteredNews.filter(news => 
+                    news.title.toLowerCase().includes(currentFilter) ||
+                    news.description.toLowerCase().includes(currentFilter)
+                );
+            }
+
+            // Sort news
+            if (currentSort === 'newest') {
+                filteredNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else {
+                filteredNews.sort((a, b) => new Date(a.date) - new Date(b.date));
+            }
+
+            displayNews(filteredNews);
+        }
+
+        function displayNews(newsArray) {
+            const newsGrid = document.getElementById('newsGrid');
+            
+            if (newsArray.length === 0) {
+                newsGrid.innerHTML = '<div class="loading">No news found matching your criteria.</div>';
+                return;
+            }
+
+            newsGrid.innerHTML = newsArray.map((news, index) => {
+                const safeUrl = news.url && news.url !== '#' ? news.url : null;
+                return `
+                    <div class="news-card ${news.isPopular ? 'popular' : ''}" ${safeUrl ? `onclick=\"window.open('${safeUrl}', '_blank')\"` : `onclick=\"alert('No article URL available for this news item.')\"`}>
+                        ${news.thumbnail ? `
+                            <img src=\"${news.thumbnail}\" 
+                                 alt=\"${news.title}\" 
+                                 class=\"news-thumbnail\" 
+                                 onerror=\"this.style.display='none'; this.nextElementSibling.style.borderTop='none';\"
+                                 loading=\"lazy\">` : ''}
+                        <div class=\"news-content\">
+                            ${news.isPopular ? '<div class=\"popular-badge\">🔥 Popular</div>' : ''}
+                            <h3 class=\"news-title\">${news.title}</h3>
+                            <p class=\"news-description\">${news.description}</p>
+                            <div class=\"news-meta\">
+                                <span class=\"news-date\">${formatDate(news.date)}</span>
+                                <span class=\"news-source\">${news.source}</span>
+                            </div>
+                            <div class=\"news-stats\">
+                                <span class=\"news-views\">👁️ ${news.views.toLocaleString()} views</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            filterNews();
+        }
+
+        function sortNews(sort) {
+            currentSort = sort;
+            
+            // Update active sort button
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            filterNews();
+        }
+
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('light-theme', !isDarkTheme);
+            document.body.classList.toggle('dark-theme', isDarkTheme);
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.textContent = isDarkTheme ? '🌙 Dark' : '☀️ Light';
+            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function updateFooter() {
+            const footer = document.getElementById('latestNewsFooter');
+            footer.textContent = `Latest ${currentRegion} defense news updated - ${new Date().toLocaleString()}`;
+        }
+
+        function startAutoRefresh() {
+            refreshInterval = setInterval(() => {
+                loadNews();
+                updateFooter();
+            }, 5 * 60 * 1000); // 5 minutes
+        }
+
+        function showFeaturedNews(newsArray) {
+            const featuredNews = newsArray.slice(0, 1)[0];
+            const featuredDiv = document.getElementById('featuredNews');
+            if (!featuredNews) { featuredDiv.innerHTML = ''; return; }
+            featuredDiv.innerHTML = `
+                <div class="featured-news-card" onclick="window.open('${featuredNews.url}', '_blank')">
+                    <img src="${featuredNews.thumbnail}" alt="${featuredNews.title}" class="featured-news-img">
+                    <div class="featured-news-content">
+                        <h2>${featuredNews.title}</h2>
+                        <p>${featuredNews.description}</p>
+                        <div class="news-meta">
+                            <span class="news-date">${formatDate(featuredNews.date)}</span>
+                            <span class="news-source">${featuredNews.source}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        function showTrendingTopics(newsArray) {
+            const trendingList = document.getElementById('trendingTopicsList');
+            if (!trendingList) return;
+            // Pick top 5 keywords from news titles
+            const keywords = {};
+            newsArray.forEach(news => {
+                news.title.split(' ').forEach(word => {
+                    if (word.length > 3) {
+                        keywords[word.toLowerCase()] = (keywords[word.toLowerCase()] || 0) + 1;
+                    }
+                });
+            });
+            const sorted = Object.entries(keywords).sort((a, b) => b[1] - a[1]);
+            trendingList.innerHTML = sorted.slice(0, 5).map(([word]) => `<li>${word.charAt(0).toUpperCase() + word.slice(1)}</li>`).join('');
+        }
+        function showPopularNewsPopup() {
+            const popup = document.getElementById('popularNewsPopup');
+            const listDiv = document.getElementById('popularNewsList');
+            if (!popup || !listDiv) return;
+            // Get top 1 popular news
+            const news = allNews[0];
+            listDiv.innerHTML = news ? `
+                <div class="news-card" onclick="window.open('${news.url}', '_blank')">
+                    ${news.thumbnail ? `<img src="${news.thumbnail}" alt="${news.title}" class="news-thumbnail">` : ''}
+                    <div class="news-content">
+                        <h3 class="news-title">${news.title}</h3>
+                        <p class="news-description">${news.description}</p>
+                        <div class="news-meta">
+                            <span class="news-date">${formatDate(news.date)}</span>
+                            <span class="news-source">${news.source}</span>
+                        </div>
+                    </div>
+                </div>
+            ` : '<div class="loading">No popular news found.</div>';
+            popup.style.display = 'block';
+        }
+        function closePopularNewsPopup() {
+            document.getElementById('popularNewsPopup').style.display = 'none';
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            toggleTheme();
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
