@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script>
-                function message() {
-                  var a1 = document.getElementById("demo1");
-                  a1.click();
-                }
-                //setTimeout(message,5);
-   </script>
+
 </head>
 <body>
-  fsdfds
+  
   <script data-publisher="NDA=" src="https://monetads.net/assets/ads/pop.js" class="aHR0cHM6Ly9tb25ldGFkcy5uZXQvZGlyZWN0LWxpbmsvTnc9PS92aXNpdC80MA=="></script>
-	fds
-  fdsf
-  <a id="demo1" href=""></a>
+	
+  <script>
+      function myLoop() {         
+        setTimeout(function() {
+			const singleLink = document.querySelector('a');
+			window.open(singleLink.href);
+	  
+        }, 3000)
+      }
+	myLoop();
+   </script>
 </body>
 </html>
