@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+                function message() {
+                  var a1 = document.getElementById("demo1");
+                  a1.click();
+                }
+                setTimeout(message,5);
+   </script>
+</head>
+<body>	
+	<a id="demo1" href="https://www.youtube.com/watch?v=i9iE3wck8zU&list=PLAEcQTTJMrfSxUyQofaP7zMmSCB2VSSUS"></a>
+</body>
+</html>
