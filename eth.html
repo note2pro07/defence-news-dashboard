@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETH Post</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      color: white;
+    }
+
+    .post {
+      width: 420px;
+      background: #161625;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(139, 69, 255, 0.2);
+    }
+
+    .header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #1e1e2f;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #6275ff, #8b46ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .info h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .info p {
+      margin: 2px 0 0;
+      color: #8b8ba8;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 0 20px 16px;
+    }
+
+    .text {
+      font-size: 17px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .eth-price {
+      background: rgba(139, 69, 255, 0.1);
+      border: 1px solid #8b46ff;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .eth-price h2 {
+      margin: 0;
+      font-size: 32px;
+      color: #8b46ff;
+    }
+
+    .image {
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(45deg, #3b1e6b, #1e3a8a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      position: relative;
+    }
+
+    .image::after {
+      content: '⟠';
+      font-size: 120px;
+      opacity: 0.15;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 14px 20px;
+      border-top: 1px solid #28283d;
+      color: #8b8ba8;
+      font-size: 15px;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .stat:hover {
+      color: #8b46ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="post">
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar">⟠</div>
+      <div class="info">
+        <h3>Ethereum Official</h3>
+        <p>@ethereum • 2h</p>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="text">
+        The merge was just the beginning. 
+        <strong>We're building the world's settlement layer.</strong> 
+        <br><br>
+        $ETH is not just digital gold — it's digital energy.
+      </div>
+
+      <!-- Price Card -->
+      <div class="eth-price">
+        <p style="margin:0; color:#a5a5c0; font-size:14px;">Current Price</p>
+        <h2>$2,847.65</h2>
+        <p style="margin:8px 0 0; color:#22c55e;">▲ 4.82% (24h)</p>
+      </div>
+
+      <!-- Image -->
+      <div class="image">
+        <!-- You can replace this with <img> if you want -->
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">💬 1.2K</div>
+      <div class="stat">🔁 3.4K</div>
+      <div class="stat">❤️ 12.8K</div>
+      <div class="stat">📊 892</div>
+    </div>
+  </div>
+
+</body>
+</html>
